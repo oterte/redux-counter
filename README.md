@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. useState의 불편함 <br>
+어떤 컴포넌트에서 생성한 state를 다른 컴포넌트로 보고자 할때 우리는 props를 통해서 부모 컴포넌트에서 자식 컴포넌트로 그 값을 보내줬다.<br>
+그런데 props로 state를 공유하는 방법에는 불편한 점이 있다.
+- 컴포넌트에서 컴포넌트로 state를 보내기 위해서는 반드시 부모관계가 되어야 한다.
+- 최상위 컴포넌트에서 하위 컴포넌트로 값을 보내고자 할때도 반드시 부모 컴포넌트를 거쳐야만 한다. <br>
+  정작 부모 컴포넌트에서는 그 값이 필요가 없어도 단순히 하위 컴포넌트에게 전달하기 위해 불필요하게 거쳐야만 한다.
 
-## Available Scripts
+2. Redux?<br>
+위와 같은 불편함을 해소하기 위해 나온 중앙 state 관리소를 사용할 수 있게 도와주는 전역 상태관리 라이브러리.<br>
+state를 공유하고자 할때 부모관계가 아니어도 되고, 중간에 의미없이 컴포넌트를 거치지 않아도 된다.<br>
+자식 컴포넌트에서 만든 state를 부모 컴포넌트에서도 사용할 수 있다.<br>
 
-In the project directory, you can run:
+* Global state와 Local state
 
-### `npm start`
+- Local State -> 컴포넌트에서 useState를 이용해서 생성한 state. <br>좁은 범위 안에서 생성된 state. <br>useState로 생성된 state가 해당됨.
+- Global State -> 컴포넌트에서 생성되지 않고 중앙화 된 특별한 곳에서 state들이 생성됨. <br>쉽게 말해 중앙 state 관리소.<br>
+리덕스로 생성한 state
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Redux 설정
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. 폴더 구조
+- redux -> redux와 관련된 코드를 모두 보관
+- config ->  redux 설정 관련 파일 전부 보관. 
+- configStore -> Store파일을 만들어 중앙 관리소 역할을 하게 함.
+- modules -> state의 그룹. Todolist를 만든다고 한다면, todolist에 필요한 state들이 모여있는 파일.(삭제, 제목, 생성 등등을 관리)
 
-### `npm test`
+## Redux Hoos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. useSelector
+- 중앙 store에 저장되어 있는 값을 읽어오고 싶을때 사용하는 hook
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. useDispatch
+- action 객체를 가지고 store에 던져주는 역할을 함
+- 컴포넌트에서 어떤 action을 가지고 store로 던져주는 역할. 
+- 중앙 데이터 관리소에 특정 데이터를 처리할 것을 요청하는 역할을 한다.
+- action에 있는 type에 따라 reducer가 state를 제어함
+- dispatch가 action 객체를 store에 던짐 -> store는 action 객체의 type에 따라 state를 변경해주는 작업을 함.
